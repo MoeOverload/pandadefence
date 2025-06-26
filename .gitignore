@@ -1,3 +1,25 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+# Godot metadata
+.import/
+.export/
+
+# Editor backups + junk
+*.tmp
+*.import
+*.godot_tmp
+*.log
+
+# OS-specific trash
+.DS_Store
+Thumbs.db
+
+# Build artifacts (if exporting)
+*.exe
+*.apk
+*.pck
+*.zip
+
+# Personal/editor configs (optional)
+*.cfg
