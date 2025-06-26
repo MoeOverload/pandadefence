@@ -1,2 +1,13 @@
 # Normalize EOL for all files that Git considers text files.
 * text=auto eol=lf
+# Treat binary scene/resource formats as binary
+*.scn binary
+*.res binary
+
+# Text formats can be diffed/merged normally
+*.tscn text
+*.tres text
+*.gd text
+*.md text
+*.txt text
+*.json text
