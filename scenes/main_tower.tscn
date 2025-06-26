@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://cb2lt2vpdsmuw"]
+
+[ext_resource type="Texture2D" uid="uid://dockdnepe4ngd" path="res://icon.svg" id="1_7e3ff"]
+[ext_resource type="Script" uid="uid://ccxqmrxqpf0sk" path="res://scenes/main_tower.gd" id="1_a2ope"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a2ope"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7e3ff")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p2e5a"]
+size = Vector2(124, 60)
+
+[node name="mainTower" type="Node2D"]
+script = ExtResource("1_a2ope")
+
+[node name="Node2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_a2ope")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 32)
+shape = SubResource("RectangleShape2D_p2e5a")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
