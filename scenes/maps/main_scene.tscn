@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=4 uid="uid://bcgh1glcbka6u"]
+[gd_scene load_steps=9 format=4 uid="uid://bcgh1glcbka6u"]
 
-[ext_resource type="Texture2D" uid="uid://plyknb0fegik" path="res://assets/temp_tilemap/ground-layers(32x32).png" id="1_w2twt"]
-[ext_resource type="PackedScene" uid="uid://cudsu8imtjl3v" path="res://scenes/enemy_spawner.tscn" id="2_7ykc4"]
-[ext_resource type="PackedScene" uid="uid://ccaibiuw20v4j" path="res://scenes/enemy.tscn" id="3_gubc5"]
-[ext_resource type="PackedScene" uid="uid://cb2lt2vpdsmuw" path="res://scenes/main_tower.tscn" id="3_pu3yx"]
+[ext_resource type="Texture2D" uid="uid://plyknb0fegik" path="res://assets/temp_tilemap/ground-layers(32x32).png" id="1_guksn"]
+[ext_resource type="PackedScene" uid="uid://cudsu8imtjl3v" path="res://scenes/enemies/enemy_spawner.tscn" id="2_ug5js"]
+[ext_resource type="PackedScene" uid="uid://ccaibiuw20v4j" path="res://scenes/enemies/enemy.tscn" id="3_j5foo"]
+[ext_resource type="PackedScene" uid="uid://cb2lt2vpdsmuw" path="res://scenes/towers/main_tower.tscn" id="4_a0tbc"]
+[ext_resource type="PackedScene" uid="uid://ckljnb2g47r2x" path="res://scenes/towers/melee_tower.tscn" id="5_cphxy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pw63i"]
-texture = ExtResource("1_w2twt")
+texture = ExtResource("1_guksn")
 texture_region_size = Vector2i(32, 32)
 0:2/0 = 0
 1:2/0 = 0
@@ -180,9 +181,12 @@ tile_set = SubResource("TileSet_7ykc4")
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="TileMapLayer"]
 navigation_polygon = SubResource("NavigationPolygon_w2twt")
 
-[node name="enemySpawner" parent="." instance=ExtResource("2_7ykc4")]
+[node name="enemySpawner" parent="." instance=ExtResource("2_ug5js")]
 position = Vector2(1428, 109)
-enemy = ExtResource("3_gubc5")
+enemy = ExtResource("3_j5foo")
 
-[node name="mainTower" parent="." instance=ExtResource("3_pu3yx")]
+[node name="mainTower" parent="." instance=ExtResource("4_a0tbc")]
 position = Vector2(141, 60)
+
+[node name="meleeTower" parent="." instance=ExtResource("5_cphxy")]
+position = Vector2(573, 351)
