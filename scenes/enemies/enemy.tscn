@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://grrmjiqb4n" path="res://scripts/enemy.gd" id="1_md0e3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_md0e3"]
-radius = 23.3452
+radius = 15.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4ra3w"]
 animations = [{
@@ -24,8 +24,8 @@ script = ExtResource("1_md0e3")
 shape = SubResource("CircleShape2D_md0e3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.988235, 0.00784314, 0, 1)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_4ra3w")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_postprocessing = 1
