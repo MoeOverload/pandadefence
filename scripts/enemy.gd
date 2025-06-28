@@ -5,7 +5,7 @@ extends CharacterBody2D
 @onready var nav =  $NavigationAgent2D
 
 #export the speed variable
-@export var move_speed = 200
+@export var move_speed = 150
 var accel = 7 
 func _ready():
 	#wait for scene to load

@@ -1,16 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://dfe5hxhkg8e2g"]
+[gd_scene load_steps=7 format=3 uid="uid://dfe5hxhkg8e2g"]
 
 [ext_resource type="Texture2D" uid="uid://dockdnepe4ngd" path="res://icon.svg" id="1_cyfgo"]
-[ext_resource type="Script" uid="uid://bbtic1jnkift" path="res://scenes/pandas/melee_panda.gd" id="1_wy3jp"]
+[ext_resource type="Script" uid="uid://dejtor41k5svl" path="res://scripts/melee_panda.gd" id="1_wy3jp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d1h1o"]
-radius = 17.2627
+radius = 13.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bax8x"]
 radius = 67.0075
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_njl1r"]
 radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wy3jp"]
 
 [node name="meleePanda" type="CharacterBody2D"]
 script = ExtResource("1_wy3jp")
@@ -33,6 +35,13 @@ shape = SubResource("CircleShape2D_bax8x")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="kill_Zone"]
 shape = SubResource("CircleShape2D_njl1r")
 
+[node name="home_checker" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="home_checker"]
+shape = SubResource("CircleShape2D_wy3jp")
+
 [connection signal="body_entered" from="enemyDetectionArea" to="." method="_on_enemy_detection_area_body_entered"]
 [connection signal="body_exited" from="enemyDetectionArea" to="." method="_on_enemy_detection_area_body_exited"]
 [connection signal="body_entered" from="kill_Zone" to="." method="_on_kill_zone_body_entered"]
+[connection signal="area_entered" from="home_checker" to="." method="_on_home_checker_area_entered"]
+[connection signal="area_exited" from="home_checker" to="." method="_on_home_checker_area_exited"]
