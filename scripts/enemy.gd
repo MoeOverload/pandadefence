@@ -5,7 +5,7 @@ extends CharacterBody2D
 @onready var nav =  $NavigationAgent2D
 
 #export the speed variable
-@export var move_speed = 150
+@export var move_speed = 100
 var accel = 7 
 func _ready():
 	#wait for scene to load
@@ -21,5 +21,13 @@ func _physics_process(delta):
 	#set next position
 	var next_position = nav.get_next_path_position()
 	var direction = (next_position - global_position).normalized()
+	if direction.x < 0:
+		$AnimatedSprite2D.flip_h = true
+	else:
+		$AnimatedSprite2D.flip_h = false
+		
+		
 	velocity = velocity.lerp(direction * move_speed , accel * delta)
+	$AnimatedSprite2D.play("walking")
+	
 	move_and_slide()

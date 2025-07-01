@@ -17,13 +17,13 @@ func _ready():
 	
 func _on_panda_spawn_timer_timeout() -> void:
 	
-	if  spawn_max <= 2:
+	if  spawn_max <= 4:
 		spawn_panda() 
 
 
 func spawn_panda():
-	#wait again
-	await get_tree().process_frame
+	
+	
 	#create a child panda 
 	var new_panda = meleePanda.instantiate()
 	

@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfe5hxhkg8e2g"]
+[gd_scene load_steps=20 format=3 uid="uid://dfe5hxhkg8e2g"]
 
-[ext_resource type="Texture2D" uid="uid://dockdnepe4ngd" path="res://icon.svg" id="1_cyfgo"]
 [ext_resource type="Script" uid="uid://dejtor41k5svl" path="res://scripts/melee_panda.gd" id="1_wy3jp"]
+[ext_resource type="Texture2D" uid="uid://dki5t88ycm2sv" path="res://assets/CharacterAssets/PandaCharacters/rolling_defualt_panda_sprite.png" id="2_wy3jp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d1h1o"]
 radius = 13.0
@@ -13,17 +13,113 @@ radius = 67.0075
 radius = 32.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wy3jp"]
+radius = 46.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wy3jp"]
+atlas = ExtResource("2_wy3jp")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pk70t"]
+atlas = ExtResource("2_wy3jp")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ynndt"]
+atlas = ExtResource("2_wy3jp")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_njl1r"]
+atlas = ExtResource("2_wy3jp")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cst8w"]
+atlas = ExtResource("2_wy3jp")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwn7i"]
+atlas = ExtResource("2_wy3jp")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tan5q"]
+atlas = ExtResource("2_wy3jp")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3tkxl"]
+atlas = ExtResource("2_wy3jp")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_24t53"]
+atlas = ExtResource("2_wy3jp")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4tq4"]
+atlas = ExtResource("2_wy3jp")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ju2p8"]
+atlas = ExtResource("2_wy3jp")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qkxot"]
+atlas = ExtResource("2_wy3jp")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pk70t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wy3jp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pk70t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ynndt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ynndt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_njl1r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cst8w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qwn7i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tan5q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3tkxl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_24t53")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4tq4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ju2p8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qkxot")
+}],
+"loop": false,
+"name": &"walking",
+"speed": 8.0
+}]
 
 [node name="meleePanda" type="CharacterBody2D"]
 script = ExtResource("1_wy3jp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_d1h1o")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 0, 1)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_cyfgo")
 
 [node name="enemyDetectionArea" type="Area2D" parent="."]
 
@@ -39,6 +135,13 @@ shape = SubResource("CircleShape2D_njl1r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="home_checker"]
 shape = SubResource("CircleShape2D_wy3jp")
+
+[node name="animatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.2, 1.2)
+sprite_frames = SubResource("SpriteFrames_pk70t")
+animation = &"walking"
+frame = 8
+frame_progress = 1.0
 
 [connection signal="body_entered" from="enemyDetectionArea" to="." method="_on_enemy_detection_area_body_entered"]
 [connection signal="body_exited" from="enemyDetectionArea" to="." method="_on_enemy_detection_area_body_exited"]
