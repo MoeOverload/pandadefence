@@ -27,7 +27,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	
 func _physics_process(delta: float) -> void:
-	print(current_state)
+	print(current_state, 'health:', pandaHealth, )
 	#match state 
 	match current_state:
 		State.IDLE:
@@ -82,11 +82,11 @@ func _on_enemy_detection_area_body_exited(body:Node2D) -> void:
 
 func _on_kill_zone_body_entered(body:Node2D) -> void:
 	if body.is_in_group("Enemy"):
+		$healthCheckTimer.start()
 		enemy = body
-		pandaHealth -= 1
 		if pandaHealth <= 0:
 			current_state = State.DEAD
-
+	
 func handle_idle(_delta):
 	velocity = Vector2.ZERO
 	$animatedSprite2D.play('idle')
@@ -97,12 +97,16 @@ func handle_chase(delta):
 	if enemy:
 		#update direction toward enemy
 		var direction = (enemy.global_position - global_position).normalized()
-		if direction.x < 0:
-			$animatedSprite2D.flip_h = true
+		if direction.length() <= 1:
+
+			if direction.x < 0:
+				$animatedSprite2D.flip_h = true
+			else:
+				$animatedSprite2D.flip_h = false
+			velocity = velocity.lerp(direction * move_speed , accel * delta)
+			$animatedSprite2D.play('walking')
 		else:
-			$animatedSprite2D.flip_h = false
-		velocity = velocity.lerp(direction * move_speed , accel * delta)
-		$animatedSprite2D.play('walking')
+			current_state = State.ATTACK
 	else:
 		# reset the state
 		current_state = State.RETURN_HOME
@@ -111,8 +115,9 @@ func handle_chase(delta):
 
 
 func handle_attack(_delta):
-	#TODO ADD THE ATTACK LOGIC
+	
 	velocity = Vector2.ZERO
+	$animatedSprite2D.play('attacking')
 	move_and_slide()
 
 func handle_return(delta):
@@ -134,3 +139,7 @@ func handle_death(_delta):
 	move_and_slide()
 	
 	queue_free()
+
+
+func _on_health_check_timer_timeout() -> void:
+	pandaHealth -= 1
