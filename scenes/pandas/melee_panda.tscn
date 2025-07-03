@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dfe5hxhkg8e2g"]
+[gd_scene load_steps=28 format=3 uid="uid://dfe5hxhkg8e2g"]
 
 [ext_resource type="Script" uid="uid://dejtor41k5svl" path="res://scripts/melee_panda.gd" id="1_wy3jp"]
 [ext_resource type="Texture2D" uid="uid://86l45cxyyj2x" path="res://assets/CharacterAssets/PandaCharacters/attack_default_panda_sprite.png" id="2_njl1r"]
@@ -8,13 +8,7 @@
 radius = 13.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bax8x"]
-radius = 67.0075
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_njl1r"]
-radius = 32.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_wy3jp"]
-radius = 46.0
+radius = 100.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ri6vw"]
 atlas = ExtResource("2_njl1r")
@@ -184,26 +178,16 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="meleePanda" type="CharacterBody2D"]
+[node name="meleePanda" type="CharacterBody2D" groups=["meleePanda"]]
 script = ExtResource("1_wy3jp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_d1h1o")
 
-[node name="enemyDetectionArea" type="Area2D" parent="."]
+[node name="DetectionArea" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemyDetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_bax8x")
-
-[node name="kill_Zone" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="kill_Zone"]
-shape = SubResource("CircleShape2D_njl1r")
-
-[node name="home_checker" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="home_checker"]
-shape = SubResource("CircleShape2D_wy3jp")
 
 [node name="animatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(1.2, 1.2)
@@ -213,12 +197,11 @@ autoplay = "idle"
 frame = 8
 frame_progress = 1.0
 
-[node name="healthCheckTimer" type="Timer" parent="."]
-wait_time = 2.0
+[node name="attckcooldown" type="Timer" parent="."]
+one_shot = true
 
-[connection signal="body_entered" from="enemyDetectionArea" to="." method="_on_enemy_detection_area_body_entered"]
-[connection signal="body_exited" from="enemyDetectionArea" to="." method="_on_enemy_detection_area_body_exited"]
-[connection signal="body_entered" from="kill_Zone" to="." method="_on_kill_zone_body_entered"]
-[connection signal="area_entered" from="home_checker" to="." method="_on_home_checker_area_entered"]
-[connection signal="area_exited" from="home_checker" to="." method="_on_home_checker_area_exited"]
-[connection signal="timeout" from="healthCheckTimer" to="." method="_on_health_check_timer_timeout"]
+[connection signal="area_entered" from="DetectionArea" to="." method="_on_detection_area_area_entered"]
+[connection signal="area_exited" from="DetectionArea" to="." method="_on_detection_area_area_exited"]
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="timeout" from="attckcooldown" to="." method="_on_attckcooldown_timeout"]

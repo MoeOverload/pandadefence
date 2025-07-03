@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ccaibiuw20v4j"]
+[gd_scene load_steps=15 format=3 uid="uid://ccaibiuw20v4j"]
 
 [ext_resource type="Script" uid="uid://grrmjiqb4n" path="res://scripts/enemy.gd" id="1_md0e3"]
 [ext_resource type="Texture2D" uid="uid://deg3a1ilfemj7" path="res://assets/CharacterAssets/enemyCharacters/walk_default_monkey_sprite-sheet.png" id="2_8e3ao"]
@@ -82,6 +82,9 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8e3ao"]
+height = 60.0
+
 [node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
 script = ExtResource("1_md0e3")
 
@@ -95,3 +98,15 @@ frame_progress = 0.609193
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
+
+[node name="pandaChecker" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pandaChecker"]
+rotation = -1.58859
+shape = SubResource("CapsuleShape2D_8e3ao")
+
+[node name="attackcooldown" type="Timer" parent="."]
+wait_time = 2.996
+
+[connection signal="body_entered" from="pandaChecker" to="." method="_on_panda_checker_body_entered"]
+[connection signal="timeout" from="attackcooldown" to="." method="_on_attackcooldown_timeout"]
