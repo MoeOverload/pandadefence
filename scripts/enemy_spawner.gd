@@ -8,7 +8,7 @@ func _ready():
 
 
 func _on_spawn_timer_timeout():
-	if wave_max !=10:
+	if wave_max !=1:
 
 		spawnEnemy()
 	
