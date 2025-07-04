@@ -109,4 +109,5 @@ shape = SubResource("CapsuleShape2D_8e3ao")
 wait_time = 2.996
 
 [connection signal="body_entered" from="pandaChecker" to="." method="_on_panda_checker_body_entered"]
+[connection signal="body_exited" from="pandaChecker" to="." method="_on_panda_checker_body_exited"]
 [connection signal="timeout" from="attackcooldown" to="." method="_on_attackcooldown_timeout"]

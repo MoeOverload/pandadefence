@@ -1,6 +1,5 @@
 extends Node2D
 @export var meleePanda: PackedScene
-var home_area: Node2D
 
 
 var spawn_max = 0
@@ -26,11 +25,11 @@ func spawn_panda():
 	
 	#create a child panda 
 	var new_panda = meleePanda.instantiate()
-	
+	new_panda.home_area = get_node("home/home_area")
 	add_child(new_panda)
 
 	
 	#set the home area and global position
-	new_panda.home_area = get_node("home")
-	new_panda.global_position = global_position
+	
+	new_panda.global_position = get_parent().global_position
 	spawn_max +=1

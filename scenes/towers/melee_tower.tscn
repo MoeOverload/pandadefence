@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckljnb2g47r2x"]
+[gd_scene load_steps=4 format=3 uid="uid://ckljnb2g47r2x"]
 
 [ext_resource type="Script" uid="uid://b5t5p3eiaui8w" path="res://scripts/melee_tower.gd" id="1_4455i"]
 [ext_resource type="Texture2D" uid="uid://dockdnepe4ngd" path="res://icon.svg" id="1_h16vq"]
+[ext_resource type="PackedScene" uid="uid://cswf4gt5xxy3t" path="res://scenes/pandas/panda_spawner.tscn" id="3_wkn3s"]
 
 [node name="meleeTower" type="Node2D"]
 script = ExtResource("1_4455i")
@@ -10,3 +11,5 @@ script = ExtResource("1_4455i")
 modulate = Color(0.521569, 0.870588, 0.905882, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_h16vq")
+
+[node name="pandaSpawner" parent="." instance=ExtResource("3_wkn3s")]

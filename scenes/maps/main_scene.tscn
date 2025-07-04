@@ -1,12 +1,10 @@
-[gd_scene load_steps=11 format=4 uid="uid://bcgh1glcbka6u"]
+[gd_scene load_steps=9 format=4 uid="uid://bcgh1glcbka6u"]
 
 [ext_resource type="Texture2D" uid="uid://plyknb0fegik" path="res://assets/temp_tilemap/ground-layers(32x32).png" id="1_guksn"]
 [ext_resource type="PackedScene" uid="uid://cudsu8imtjl3v" path="res://scenes/enemies/enemy_spawner.tscn" id="2_ug5js"]
 [ext_resource type="PackedScene" uid="uid://ccaibiuw20v4j" path="res://scenes/enemies/enemy.tscn" id="3_j5foo"]
 [ext_resource type="PackedScene" uid="uid://cb2lt2vpdsmuw" path="res://scenes/towers/main_tower.tscn" id="4_a0tbc"]
-[ext_resource type="PackedScene" uid="uid://bq721x3hmkg0g" path="res://scenes/home_area.tscn" id="4_ug5js"]
 [ext_resource type="PackedScene" uid="uid://ckljnb2g47r2x" path="res://scenes/towers/melee_tower.tscn" id="5_cphxy"]
-[ext_resource type="PackedScene" uid="uid://cswf4gt5xxy3t" path="res://scenes/pandas/panda_spawner.tscn" id="6_j5foo"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_w2twt"]
 vertices = PackedVector2Array(1366.42, 11.9766, 1494.9, 10.1406, 1493.08, 203.328, 1384.89, 206.961, 1186.01, 163.992, 1183.48, 61.9609, 86.0313, 639.07, 87.9609, 55.1563, 192.969, 56.8438, 191.977, 542.883, 482, 641.922, 384.813, 545.109, 482, 321.063, 390.813, 222.023, 769.961, 222.969, 667.078, 319.938, 768.961, 477, 665.07, 574.063, 1095.95, 576.93, 985, 477, 1093.95, 165.117, 985, 67.7109)
@@ -192,7 +190,3 @@ position = Vector2(141, 60)
 
 [node name="meleeTower" parent="." instance=ExtResource("5_cphxy")]
 position = Vector2(571, 347)
-
-[node name="pandaSpawner" parent="meleeTower" instance=ExtResource("6_j5foo")]
-
-[node name="home" parent="meleeTower/pandaSpawner" instance=ExtResource("4_ug5js")]

@@ -71,6 +71,7 @@ func _on_panda_checker_body_entered(body:Node2D) -> void:
 		else:
 			current_state = State.IDLE
 	else:
+		
 		current_state = State.FIND
 
 
@@ -104,12 +105,10 @@ func handle_attack(_delta):
 		emit_signal("enemyAttackAttempt",rDamage)
 		#play atack anim
 		move_and_slide()
-		#set state to idle quick
-		current_state = State.IDLE
 		$attackcooldown.start()
-		is_attacking = false	
+			
 		can_attack =false
-
+	is_attacking = false
 func handle_find(delta):
 	target= tower
 	var next_position = nav.get_next_path_position()
@@ -135,3 +134,9 @@ func handle_death(_delta):
 	queue_free()
 func _on_attackcooldown_timeout() -> void:
 	can_attack = true
+
+
+func _on_panda_checker_body_exited(body:Node2D) -> void:
+	if body.is_in_group("meleePanda"):
+		body = null
+		current_state = State.FIND
