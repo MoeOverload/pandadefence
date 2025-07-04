@@ -173,7 +173,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qkxot")
 }],
-"loop": true,
+"loop": false,
 "name": &"walking",
 "speed": 8.0
 }]
@@ -192,10 +192,8 @@ shape = SubResource("CircleShape2D_bax8x")
 [node name="animatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(1.2, 1.2)
 sprite_frames = SubResource("SpriteFrames_pk70t")
-animation = &"attacking"
+animation = &"walking"
 autoplay = "idle"
-frame = 8
-frame_progress = 1.0
 
 [node name="attckcooldown" type="Timer" parent="."]
 one_shot = true
