@@ -5,8 +5,7 @@ extends Node2D
 var spawn_max = 0
 
 func _ready():
-	#set the spawners global position to its parents global position
-	global_position = get_parent().global_position
+	
 	#wait for first frame 
 	await get_tree().process_frame
 	
