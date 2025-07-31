@@ -106,11 +106,6 @@ func _on_detection_area_body_exited(body:Node2D) -> void:
 		#change state
 		current_state = State.RETURN_HOME
 
-
-
-
-
-
 func handle_chase(delta):
 		nav.target_position = enemy.global_position
 		#update direction toward enemy
@@ -125,7 +120,6 @@ func handle_chase(delta):
 		velocity = velocity.lerp(direction * move_speed , accel * delta)
 		$animatedSprite2D.play('walking')
 		move_and_slide()
-
 
 
 func handle_attack(_delta):
