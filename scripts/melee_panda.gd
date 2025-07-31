@@ -40,7 +40,7 @@ func _ready():
 	
 
 func _physics_process(delta: float) -> void:
-	print(current_state,"  " , " health: ",pandaHealth)
+	#print(current_state,"  " , " health: ",pandaHealth)
 	#match state 
 	match current_state:
 		State.IDLE:
@@ -76,7 +76,7 @@ func _on_attack_recieved(damage: int):
 func _on_detection_area_body_entered(body:Node2D) -> void:
 	#check if the body is in group
 	if body.is_in_group("Enemy"):
-		print('enemy')
+		
 		#assign the body as a target
 		enemy = body
 		if not enemy.is_connected("enemyAttackAttempt", Callable(self, "_on_attack_recieved")):
