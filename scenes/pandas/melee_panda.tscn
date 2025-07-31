@@ -179,7 +179,10 @@ animations = [{
 }]
 
 [node name="meleePanda" type="CharacterBody2D" groups=["meleePanda"]]
+motion_mode = 1
 script = ExtResource("1_wy3jp")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_d1h1o")
@@ -198,8 +201,6 @@ autoplay = "idle"
 [node name="attckcooldown" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="area_entered" from="DetectionArea" to="." method="_on_detection_area_area_entered"]
-[connection signal="area_exited" from="DetectionArea" to="." method="_on_detection_area_area_exited"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
 [connection signal="timeout" from="attckcooldown" to="." method="_on_attckcooldown_timeout"]

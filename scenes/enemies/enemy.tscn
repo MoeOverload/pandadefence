@@ -98,6 +98,7 @@ frame_progress = 0.609193
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
+avoidance_enabled = true
 
 [node name="pandaChecker" type="Area2D" parent="."]
 

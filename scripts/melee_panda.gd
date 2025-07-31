@@ -1,9 +1,12 @@
 extends CharacterBody2D
 #refernce to the enemy
+@onready var nav =  $NavigationAgent2D
+
 var enemy : CharacterBody2D 
 #refernce to the home area
-@export var home_area: Node2D
-var dist
+var home_area : Vector2
+var max_distance_from_home := 200
+
 #panda
 var pandaHealth = 10
 var move_speed = 100
@@ -14,7 +17,7 @@ var dmgRecieved
 var can_attack = true
 var is_attacking = false
 
-var home
+
 
 
 #state options
@@ -31,29 +34,13 @@ enum State {
 
 #set current state
 @onready var current_state =  State.IDLE
-func _ready() -> void:
+func _ready():
+	home_area = get_parent().global_position
 	
-	#wait for scene to load
-	await get_tree().process_frame
 	
-func _process(_delta: float) -> void:
-	print(current_state,"  ", dist , " health: ",pandaHealth)
-	if enemy:	
-		dist = global_position.distance_to(enemy.global_position)
-		
-		#check if enemy is within =chasing distance
-		if dist < 40:
-			if is_attacking == false and is_attacked == false:
-				#change state
-				current_state = State.ATTACK
-			elif is_attacked == true:
-				current_state = State.DAMAGED
-		else:
-				#change state 
-				current_state  = State.CHASE		
 
 func _physics_process(delta: float) -> void:
-	
+	print(current_state,"  " , " health: ",pandaHealth)
 	#match state 
 	match current_state:
 		State.IDLE:
@@ -89,12 +76,23 @@ func _on_attack_recieved(damage: int):
 func _on_detection_area_body_entered(body:Node2D) -> void:
 	#check if the body is in group
 	if body.is_in_group("Enemy"):
+		print('enemy')
 		#assign the body as a target
 		enemy = body
-		if enemy:
+		if not enemy.is_connected("enemyAttackAttempt", Callable(self, "_on_attack_recieved")):
 			enemy.connect("enemyAttackAttempt", Callable(self, "_on_attack_recieved"))
+		#check if enemy is within =chasing distance
+		var dist = global_position.distance_to(enemy.global_position)
+		if dist < 40:
+			if is_attacking == false and is_attacked == false:
+			#change state
+				current_state = State.ATTACK
+			elif is_attacked == true:
+				current_state = State.DAMAGED
 		else:
-			print("enemyAttackAttempt signal missing on enemy")
+			#change state 
+			current_state  = State.CHASE
+		
 		
 
 
@@ -104,9 +102,9 @@ func _on_detection_area_body_entered(body:Node2D) -> void:
 func _on_detection_area_body_exited(body:Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		#reset target to null 
-		body = null  
+		enemy = null  
 		#change state
-		current_state = State.IDLE
+		current_state = State.RETURN_HOME
 
 
 
@@ -114,13 +112,16 @@ func _on_detection_area_body_exited(body:Node2D) -> void:
 
 
 func handle_chase(delta):
+		nav.target_position = enemy.global_position
 		#update direction toward enemy
-		var direction = (enemy.global_position - global_position).normalized()
-
+		var next_position = nav.get_next_path_position()
+		var direction = (next_position - global_position).normalized()
 		if direction.x < 0:
 			$animatedSprite2D.flip_h = true
 		else:
 			$animatedSprite2D.flip_h = false
+		if distance_check():
+			current_state = State.RETURN_HOME
 		velocity = velocity.lerp(direction * move_speed , accel * delta)
 		$animatedSprite2D.play('walking')
 		move_and_slide()
@@ -128,28 +129,39 @@ func handle_chase(delta):
 
 
 func handle_attack(_delta):
+	if not enemy or not is_instance_valid(enemy):
+		current_state = State.RETURN_HOME
+		return
 	var direction = (enemy.global_position - global_position).normalized()
 	if direction.x < 0:
 		$animatedSprite2D.flip_h = true
 	else: 
 		$animatedSprite2D.flip_h = false
 	if can_attack:
+		can_attack = false
 		var rDamage = randf_range(1,5)
 		emit_signal("panda_attack_attempt",rDamage)
-		#update direction toward enemy
-	
-		velocity = Vector2.ZERO
 		$attckcooldown.start()
 		$animatedSprite2D.play('attacking')
-		move_and_slide()
+		#update direction toward enemy
+	velocity = Vector2.ZERO
+	move_and_slide()
 
 
 
 func handle_idle(_delta):
-	velocity = Vector2.ZERO
+	var next_position = nav.get_next_path_position()
+	var direction = (next_position - global_position).normalized()
+	
+	if direction.x < 0:
+		$animatedSprite2D.flip_h = true
+	else:	
+		$animatedSprite2D.flip_h = false
+	if distance_check():
+		current_state = State.RETURN_HOME
+	velocity=Vector2.ZERO
 	$animatedSprite2D.play('idle')
 	move_and_slide()
-
 
 
 
@@ -181,30 +193,9 @@ func _on_attckcooldown_timeout() -> void:
 
 
 
-#check if panda enters the home area
-func _on_detection_area_area_entered(area:Area2D) -> void:
-	if area.is_in_group("home"):
-		
-		home = true
-		if enemy == null:
-			current_state = State.IDLE
-
-
-
-
-
-
-#check if panda left the home area
-func _on_detection_area_area_exited(area: Area2D) -> void:
-# THIS IS BROKEN PROBABLY
-	if area.is_in_group("home"):
-		home = false
-		if !enemy:
-			current_state= State.RETURN_HOME
-		else:
-			current_state = State.CHASE
-	else:
-		current_state= State.IDLE
+func distance_check():
+	var distance = global_position.distance_to(home_area)
+	return distance > max_distance_from_home
 
 
 
@@ -213,15 +204,20 @@ func _on_detection_area_area_exited(area: Area2D) -> void:
 
 
 func handle_return(delta):
-	#if home area is detected
-	home_area.global_position = get_parent().global_position
-	#set direction towards home
-	var direction = (home_area.global_position - global_position).normalized()
-	#check distance to home
-	if direction.length() == 0:
+	nav.target_position = home_area  # always reset target position
+
+	var next_position = nav.get_next_path_position()
+	var direction = (next_position - global_position).normalized()
+
+	if direction.x < 0:
+		$animatedSprite2D.flip_h = true
+	else:	
+		$animatedSprite2D.flip_h = false
+
+	if global_position.distance_to(home_area) < 40:  # close enough
 		velocity = Vector2.ZERO
+		current_state = State.IDLE
 	else:
 		velocity = velocity.lerp(direction * move_speed , accel * delta)
-	
-		
+
 	move_and_slide()

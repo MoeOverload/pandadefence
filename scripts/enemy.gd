@@ -57,11 +57,7 @@ func _on_attack_recieved(damage):
 
 func _on_panda_checker_body_entered(body:Node2D) -> void:
 	if body.is_in_group('meleePanda'):
-		panda = body 
-		if panda.has_signal("panda_attack_attempt"):
-			panda.connect("panda_attack_attempt", Callable(self , "_on_attack_recieved"))
-		else:
-			print('panda_attack_attempt signal missing')	
+		panda = body 	
 		target = panda
 		#update state
 		if is_attacking == false and is_attacked == false:
@@ -109,6 +105,7 @@ func handle_attack(_delta):
 			
 		can_attack =false
 	is_attacking = false
+
 func handle_find(delta):
 	target= tower
 	var next_position = nav.get_next_path_position()
@@ -122,16 +119,19 @@ func handle_find(delta):
 	$AnimatedSprite2D.play("walking")
 	
 	move_and_slide()
+
 func handle_damaged(_delta):
 	monkeyHealth -= dmgRecieved
 	if monkeyHealth <= 0:
 		current_state = State.DEAD
+
 	#TODO IMPLEMENT KNOCKBACK FUNCTION
+
 func handle_death(_delta):
 	velocity = Vector2.ZERO
 	move_and_slide()
-	
 	queue_free()
+
 func _on_attackcooldown_timeout() -> void:
 	can_attack = true
 
