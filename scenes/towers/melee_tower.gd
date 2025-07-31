@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var meleePanda: PackedScene
-
+var new_panda_instance = null
 
 var spawn_max = 0
 
@@ -15,13 +15,14 @@ func _on_spawntimer_timeout() -> void:
 		spawn_panda() 
 
 func spawn_panda():
-
+	if new_panda_instance:
+		new_panda_instance.queue_free()
 
 	#create a child panda 
-	var new_panda = meleePanda.instantiate()
-	add_child(new_panda)
+	new_panda_instance = meleePanda.instantiate()
+	add_child(new_panda_instance)
 
 	
-	#set the home area and global position
-	new_panda.global_position = self.global_position
+	#set global position
+	new_panda_instance.global_position = self.global_position
 	spawn_max +=1
