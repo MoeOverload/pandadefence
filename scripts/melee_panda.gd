@@ -6,7 +6,7 @@ var enemy : CharacterBody2D
 #refernce to the home area
 var home_area : Vector2
 var max_distance_from_home := 200
-
+var distanceCheck
 #panda
 var pandaHealth = 10
 var move_speed = 100
@@ -40,7 +40,9 @@ func _ready():
 	
 
 func _physics_process(delta: float) -> void:
-	#print(current_state,"  " , " health: ",pandaHealth)
+	
+	print(current_state,"  " , " health: ",pandaHealth)
+	#print(distanceCheck)
 	#match state 
 	match current_state:
 		State.IDLE:
@@ -79,19 +81,21 @@ func _on_detection_area_body_entered(body:Node2D) -> void:
 		
 		#assign the body as a target
 		enemy = body
+		distanceCheck = global_position.distance_to(enemy.global_position)
 		if not enemy.is_connected("enemyAttackAttempt", Callable(self, "_on_attack_recieved")):
 			enemy.connect("enemyAttackAttempt", Callable(self, "_on_attack_recieved"))
 		#check if enemy is within =chasing distance
-		var dist = global_position.distance_to(enemy.global_position)
-		if dist < 40:
-			if is_attacking == false and is_attacked == false:
+		if distanceCheck < 120:
+			if is_attacked == false:
 			#change state
 				current_state = State.ATTACK
+				
 			elif is_attacked == true:
 				current_state = State.DAMAGED
 		else:
 			#change state 
 			current_state  = State.CHASE
+			
 		
 		
 

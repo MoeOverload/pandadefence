@@ -199,6 +199,7 @@ animation = &"walking"
 autoplay = "idle"
 
 [node name="attckcooldown" type="Timer" parent="."]
+wait_time = 1.316
 one_shot = true
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
