@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://deg3a1ilfemj7" path="res://assets/CharacterAssets/enemyCharacters/walk_default_monkey_sprite-sheet.png" id="2_8e3ao"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_md0e3"]
-radius = 18.1108
+radius = 22.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_38ino"]
 atlas = ExtResource("2_8e3ao")
@@ -98,6 +98,7 @@ frame_progress = 0.609193
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
+simplify_path = true
 avoidance_enabled = true
 
 [node name="pandaChecker" type="Area2D" parent="."]

@@ -12,7 +12,7 @@ func _ready():
 	$spawntimer.start()
 	
 func _on_spawntimer_timeout() -> void:
-	if  spawn_max <= 5:
+	if  spawn_max <= 3:
 		spawn_panda() 
 
 func spawn_panda():
@@ -27,4 +27,4 @@ func spawn_panda():
 	#set global position
 	new_panda_instance.global_position += Vector2(randi_range(-8, 8), randi_range(-8, 8))
 	spawn_max +=1
-	print(spawn_max)
+	
