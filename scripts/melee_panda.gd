@@ -85,7 +85,7 @@ func _on_detection_area_body_entered(body:Node2D) -> void:
 		if not enemy.is_connected("enemyAttackAttempt", Callable(self, "_on_attack_recieved")):
 			enemy.connect("enemyAttackAttempt", Callable(self, "_on_attack_recieved"))
 		#check if enemy is within =chasing distance
-		if distanceCheck < 120:
+		if distanceCheck < 119.50:
 			if is_attacked == false:
 			#change state
 				current_state = State.ATTACK
